@@ -17,6 +17,7 @@ public class CarController : MonoBehaviour
         public GameObject wheelModel;
         public WheelCollider wheelCollider;
         public GameObject wheelEffectObj;
+        public ParticleSystem smokeParticle;
         public Axel axel;
     }
     public float maxAcceleration = 30.0f;
@@ -105,9 +106,10 @@ public class CarController : MonoBehaviour
     {
         foreach (var Wheel in wheels)
         {
-            if (Input.GetKey(KeyCode.Space) && Wheel.axel == Axel.Rear)
+            if (Input.GetKey(KeyCode.Space) && Wheel.axel == Axel.Rear && Wheel.wheelCollider.isGrounded == true && carRb.velocity.magnitude >= 1.0f)
             {
                 Wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = true;
+                Wheel.smokeParticle.Emit(1);
             }
             else
             {
