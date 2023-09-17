@@ -6,6 +6,11 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
+    public enum ControlMode
+    {
+        Keyboard,
+        Buttons
+    }
     public enum Axel
     {
         Front,
@@ -20,6 +25,7 @@ public class CarController : MonoBehaviour
         public ParticleSystem smokeParticle;
         public Axel axel;
     }
+    public ControlMode control;
     public float maxAcceleration = 30.0f;
     public float brakeAcceleration = 50.0f;
     public float turnSensitivity = 1.0f;
@@ -50,10 +56,21 @@ public class CarController : MonoBehaviour
         Steer();
         Brake();
     }
+    public void MoveInput(float Input)
+    {
+        moveInput = Input;
+    }
+    public void SteerInput(float Input)
+    {
+        steerInput = Input;
+    }
     void GetInputs()
     {
-        moveInput = Input.GetAxis("Vertical");
-        steerInput = Input.GetAxis("Horizontal");
+        if (control == ControlMode.Keyboard)
+        {
+            moveInput = Input.GetAxis("Vertical");
+            steerInput = Input.GetAxis("Horizontal");
+        }
 
     }
     void Move()
